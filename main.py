@@ -1,6 +1,6 @@
-from gestionale.ordini import Ordine, RigaOrdine, OrdineConSconto
-from gestionale.prodotti import Prodotto, crea_prodotto_standard, ProdottoRecord
-from gestionale.clienti import Cliente, ClienteRecord
+from gestionale.vendite.ordini import Ordine, RigaOrdine, OrdineConSconto
+from gestionale.core.prodotti import Prodotto, crea_prodotto_standard, ProdottoRecord
+from gestionale.core.clienti import Cliente, ClienteRecord
 
 print("--------------------------------------------------------------")
 
@@ -31,5 +31,6 @@ print("Totale netto sconto: ", ordine_scontato.totale_netto())
 print("Totale lordo sconto: ", ordine_scontato.totale_lordo(0.22))
 
 # Nel package gestionale scriviamo un modulo fatture.py che contenga:
-# una classe fattura che contiene un Ordine, un numero fattura e una data
+# una classe fattura che contiene un Ordine, un numero fattura e una data,
 # un metodo genera_fattura() che resittuisce una stringa formattata con tutte le info della fattura
+
