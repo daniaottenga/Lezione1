@@ -35,6 +35,9 @@ class ClienteRecord:
     email: str
     categoria: str
 
+    def __str__(self):
+        return f"{self.name} -- {self.email} ({self.categoria})"
+
 def _test_modulo():
     c1 = Cliente(name="Mario Bianchi", email="mario.bianchi@polito.it", categoria="Gold")
     print(c1)

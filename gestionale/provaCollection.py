@@ -1,11 +1,12 @@
 import copy
 from collections import Counter
+from collections import deque
 
 from gestionale.core.clienti import Cliente, ClienteRecord
 from gestionale.core.prodotti import ProdottoRecord
 from gestionale.vendite.ordini import Ordine, RigaOrdine
 
-
+'''----------------------------------------------------'''
 # LISTE
 
 
@@ -54,6 +55,7 @@ carrello_copia2 = copy.deepcopy(carrello) # se modifico quella di partenza non m
 # sono distinti da quella di partenza
 
 
+'''----------------------------------------------------'''
 # TUPLE
 
 
@@ -85,6 +87,7 @@ tot, *altri_campi = calcola_statistiche_carrello(carrello) # fa un unpacking met
 print(tot)
 
 
+'''----------------------------------------------------'''
 # SET
 
 
@@ -137,6 +140,7 @@ s1.issuperset(s) # se gli elementi di s sono in s1 (sovrainsieme)
 s1.isdisjoint(s) # se gli elementi di s e di s1 sono diversi, gli insiemi sono totalmente disgiunti
 
 
+'''----------------------------------------------------'''
 # DIZIONARIO
 
 
@@ -201,6 +205,7 @@ coordinate = (45, 56)
 """ 5) tenere traccia delle categorie di clienti che hanno fatto un ordine in un certo range temporale """ # set
 
 
+'''----------------------------------------------------'''
 # COUNTER
 
 
@@ -232,3 +237,20 @@ vendite_febbraio = Counter(
 vendite_bimestre = vendite_febbraio + vendite_gennaio # le metto assieme
 differenza_vendiite = vendite_gennaio - vendite_febbraio # differenza delle vendite
 vendite_gennaio["Laptop"] += 4 # modifico
+
+'''----------------------------------------------------'''
+# DEQUE
+
+coda_ordini = deque()
+for i in range(1, 10): # 10 non compreso, 1 compreso
+    cliente = ClienteRecord(f"Cliente {i}", f"cliente{i}@polito.it", "Gold")
+    prodotto = ProdottoRecord(f"Prodotto {i}", 100.0 * i)
+    ordine = Ordine([RigaOrdine(prodotto, 1)], cliente)
+    coda_ordini.append(ordine)
+
+print(f"Ordini in coda: {len(coda_ordini)}")
+
+while coda_ordini: # finchè ho elementi in coda_ordini
+    ordine_corrente = coda_ordini.popleft()
+    print(f"Sto gestendo l'ordine del cliente {ordine_corrente.cliente}")
+print(f"Ho processato tutti gli ordini")
