@@ -1,7 +1,10 @@
+import random
+from audioop import add
 from collections import deque, Counter, defaultdict
 
-from gestionale.core.clienti import ClienteRecord
-from gestionale.core.prodotti import ProdottoRecord
+from dao.dao import DAO
+from gestionale.core.cliente import ClienteRecord
+from gestionale.core.prodotto import ProdottoRecord
 from gestionale.vendite.ordini import Ordine, RigaOrdine
 
 """ 
@@ -19,6 +22,22 @@ class GestoreOrdini:
         self._ordini_processati = [] # non mi importa delll'ordinamento
         self._statistiche_prodotti = Counter()
         self._ordini_per_categoria = defaultdict(list) # le chiavi sono le categorie, i valori gli ordini
+        self._dao = DAO()
+        self._allP = []
+        self._allC = []
+        self._fill_data()
+
+    def _fill_data(self): # leggo prodotti e clienti da db e creo ordini randomici per testare l'app
+        self._allP.extend(self._dao.getAllProdotti()) # così se c'era altro lo mantiene
+        self._allC.extend(self._dao.getAllClienti())
+
+        for i in range(10):
+            indexP = random.randint(0, len(self._allP))
+            indexC = random.randint(0, len(self._allC))
+            ordine = Ordine([RigaOrdine(self._allP[indexP], random.randint(1, 5))],
+                            self._allC[indexC])
+            self.add_ordine(ordine)
+
 
     def add_ordine(self, ordine: Ordine):
         # Aggiunge un nuovo ordine agli elementi da gestire
@@ -26,15 +45,30 @@ class GestoreOrdini:
         print(f"Ricevuto un nuovo ordine da parte di {ordine.cliente}")
         print(f"Oridni ancora da evadere: {len(self._ordini_da_processare)}")
 
+    def crea_ordine(self, nomeP, prezzoP, quantitaP, nomeC, mailC, categoriaC):
+        prod = ProdottoRecord(nomeP, prezzoP)
+        cliente = ClienteRecord(nomeC, mailC, categoriaC)
+
+        self._update_DB(prod, cliente)
+        return Ordine([RigaOrdine(prod, quantitaP)], cliente)
+
+    def _update_DB(self, prod, cliente):
+        pass
+
+
     def processa_prossimo_ordine(self):
         # Legge il prossimo ordine in coda e lo gestisce, aggiorna le variabili private di questa classe
 
+        print("\n" + "-" * 60)
+        print("\n" + "-" * 60)
+
         if not self._ordini_da_processare: # se è vuoto
             print("Non ci sono ordini in coda")
-            return False
+            return False, Ordine([], ClienteRecord("", "", "")) # posso fare return di più cose assieme
 
         ordine = self._ordini_da_processare.popleft() # logica FIFO
         print(f"Sto processando l'ordine di {ordine.cliente}")
+        print(ordine.riepilogo())
 
         # su tutte le righe del mio ordine, per ognuna vado ad aggiornare la mia
         # collection di statistiche sui prodotti venduti, è un counter con una losta di stringhe (nomi del
@@ -54,9 +88,12 @@ class GestoreOrdini:
         # processa tutti gli ordini attualmente presenti in coda
 
         print(f"Processando {len(self._ordini_da_processare)} ordini")
+        ordini = []
         while self._ordini_da_processare:
-            self.processa_prossimo_ordine()
+            _, ordine = self.processa_prossimo_ordine() # l'underscore mi dà una variabile che non userò
+            ordini.append(ordine)
         print("Tutti gli ordini sono stati processati")
+        return ordini
 
     def get_statistiche_prodotti(self, top_n: int = 5):
         # Questo metodo restituisce info su quante unità sono state vendute di un certo prodotto
@@ -88,6 +125,21 @@ class GestoreOrdini:
         print("Fatturato per categoria:")
         for cat, fatturato in self.get_distribuzione_categorie():
             print(f"{cat}: {fatturato}")
+
+    def get_riepilogo(self):
+        # restituisce una stringa con le info di massima
+        sommario = ""
+        sommario += "\n" + "=" * 60
+        sommario += f"Oridni correttamente gestiti: {len(self._ordini_processati)}"
+        sommario += f"Oridni in coda: {len(self._ordini_da_processare)}"
+
+        sommario += "Prodotti + venduti:"
+        for prod, quantita in self.get_statistiche_prodotti(): # che dà una lista di tuple
+            sommario += f"{prod}: {quantita}"
+
+        sommario += "Fatturato per categoria:"
+        for cat, fatturato in self.get_distribuzione_categorie():
+            sommario += f"{cat}: {fatturato}"
 
 def test_modulo():
     sistema = GestoreOrdini() # crea un'istanza della classe

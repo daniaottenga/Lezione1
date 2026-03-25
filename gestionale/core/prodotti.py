@@ -97,16 +97,6 @@ class Abbonamento():
     def prezzo_finale(self) -> float:
         return self.prezzo_mensile * self.mesi
 
-@dataclass # come scrivere il costruttore ma più veloce
-class ProdottoRecord:
-    name: str
-    prezzo_unitario: float
-
-    def __hash__(self):
-        return hash(self.name, self.prezzo_unitario)
-
-    def __str__(self):
-        return f"{self.name} - prezzo unitario {self.prezzo_unitario}"
 
 MAX_QUANTITA = 1000
 
