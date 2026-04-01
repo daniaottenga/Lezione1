@@ -1,8 +1,8 @@
 from colorama import init, Fore, Back, Style
 from datetime import date
-
-from gestionale.core.clienti import Cliente, ClienteRecord
-from gestionale.core.prodotti import ProdottoRecord
+from gestionale.core.cliente import ClienteRecord
+from gestionale.core.clienti import Cliente
+from gestionale.core.prodotto import ProdottoRecord
 from gestionale.vendite.fatture import Fattura
 from gestionale.vendite.ordini import RigaOrdine, Ordine
 

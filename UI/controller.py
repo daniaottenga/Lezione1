@@ -1,10 +1,5 @@
 import flet as ft
-
-from gestionale.core.clienti import ClienteRecord
-from gestionale.core.prodotti import ProdottoRecord
 from gestionale.gestoreOrdini import GestoreOrdini
-from gestionale.vendite.ordini import RigaOrdine, Ordine
-
 
 class Controller:
 
@@ -72,6 +67,8 @@ class Controller:
 
         self._view._lvOut.controls.append(ft.Text(value = "Ordine correttamente inserito", color = "green"))
         self._view._lvOut.controls.append(ft.Text(value = "Dettagli dell'ordine"))
+        self._view._lvOut.controls.append(ft.Text(ordine.riepilogo()))
+        self._view._lvOut.controls.append(ft.Text("\n"))
 
         self._view.update_page()
 

@@ -1,5 +1,4 @@
 import mysql.connector
-
 from dao.dbConnect import DBConnect
 from gestionale.core.cliente import ClienteRecord
 from gestionale.core.prodotto import ProdottoRecord
@@ -7,7 +6,8 @@ from gestionale.core.prodotto import ProdottoRecord
 
 class DAO:
 
-    def getAllProdotti(self):
+    @staticmethod
+    def getAllProdotti():
         cnx = DBConnect.getConnection()
 
         cursor = cnx.cursor(dictionary = True) # creo un cursore, con una lista di dizionari
@@ -22,7 +22,8 @@ class DAO:
         cnx.close() # da fare SEMPRE
         return res
 
-    def getAllClienti(self):
+    @staticmethod
+    def getAllClienti():
         cnx = DBConnect.getConnection()
 
         cursor = cnx.cursor(dictionary = True) # creo un cursore, con una lista di dizionari
@@ -37,7 +38,8 @@ class DAO:
         cnx.close() # da fare SEMPRE
         return res
 
-    def addProdotto(self, prodotto): # vado ad alimentare il db
+    @staticmethod
+    def addProdotto(prodotto): # vado ad alimentare il db
 
         cnx = DBConnect.getConnection()
 
@@ -51,7 +53,8 @@ class DAO:
         cnx.close()  # da fare SEMPRE
         return
 
-    def addProdotto(self, cliente):
+    @staticmethod
+    def addProdotto(cliente):
 
         cnx = DBConnect.getConnection()
 
@@ -66,24 +69,26 @@ class DAO:
         cnx.close()  # da fare SEMPRE
         return
 
-    def hasCliente(self, cliente):
+    @staticmethod
+    def hasCliente(cliente):
         cnx = DBConnect.getConnection()
 
         cursor = cnx.cursor(dictionary = True) # creo un cursore, con una lista di dizionari
         query = "Select * form clienti where email = %s"
-        cursor.execute(query, (cliente.email))
+        cursor.execute(query, (cliente.email,))
         row = cursor.fetchall() # semore se non leggo tutti i dati perchè se no mi dà degli errori
 
         cursor.close()
         cnx.close() # da fare SEMPRE
         return len(row) > 0 # se row ha almeno una riga vuol dire che il cliente esiste
 
-    def hasProdotto(self, prodotto):
+    @staticmethod
+    def hasProdotto(prodotto):
         cnx = DBConnect.getConnection()
 
         cursor = cnx.cursor(dictionary = True) # creo un cursore, con una lista di dizionari
         query = "Select * form prodotti where nome = %s"
-        cursor.execute(query, (prodotto.name))
+        cursor.execute(query, (prodotto.name,))
         row = cursor.fetchall() # semore se non leggo tutti i dati perchè se no mi dà degli errori
 
         cursor.close()

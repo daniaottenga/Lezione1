@@ -1,6 +1,8 @@
+from gestionale.core.cliente import ClienteRecord
+from gestionale.core.prodotto import ProdottoRecord
 from gestionale.vendite.ordini import Ordine, RigaOrdine, OrdineConSconto
-from gestionale.core.prodotti import Prodotto, crea_prodotto_standard, ProdottoRecord
-from gestionale.core.clienti import Cliente, ClienteRecord
+from gestionale.core.prodotti import Prodotto, crea_prodotto_standard
+from gestionale.core.clienti import Cliente
 
 print("--------------------------------------------------------------")
 
@@ -12,8 +14,6 @@ print(p2)
 print("--------------------------------------------------------------")
 
 c1 = Cliente("Mario Rossi", "mail@mail.com", "Gold")
-
-print("--------------------------------------------------------------")
 
 cliente1 = ClienteRecord("Mario Rossi", "mariorossi@example.com", "Gold")
 p1 = ProdottoRecord("Laptop", 1200.0)
@@ -29,6 +29,8 @@ print("Totale lordo: ", ordine.totale_lordo(0.22))
 print(ordine_scontato)
 print("Totale netto sconto: ", ordine_scontato.totale_netto())
 print("Totale lordo sconto: ", ordine_scontato.totale_lordo(0.22))
+
+print("--------------------------------------------------------------")
 
 # Nel package gestionale scriviamo un modulo fatture.py che contenga:
 # una classe fattura che contiene un Ordine, un numero fattura e una data,

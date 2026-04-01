@@ -1,9 +1,8 @@
 import copy
 from collections import Counter
 from collections import deque
-
-from gestionale.core.clienti import Cliente, ClienteRecord
-from gestionale.core.prodotti import ProdottoRecord
+from gestionale.core.cliente import ClienteRecord
+from gestionale.core.prodotto import ProdottoRecord
 from gestionale.vendite.ordini import Ordine, RigaOrdine
 
 '''----------------------------------------------------'''
@@ -23,7 +22,7 @@ for i, p in enumerate(carrello): # restituisce una lista di tuple con indice e e
 # Aggiungere ad una lista
 carrello.append(ProdottoRecord("Monitor", 150.0))
 
-carrello.sort(key = lambda x: x.prezzo_unitario) # sort per prezzo unitario
+carrello.sort(key = lambda x: x.prezzo_unitario, reverse = True) # sort per prezzo unitario
 print("Prodotti nel carrello ordinati per prezzo")
 for i, p in enumerate(carrello): # restituisce una lista di tuple con indice e elemento stesso
     print(f"{i + 1}) {p.name} - {p.prezzo_unitario}")
@@ -79,10 +78,10 @@ def calcola_statistiche_carrello(carrello):
     prezzi = [p.prezzo_unitario for p in carrello] # metto tutti i prezzi nel carrello
     return sum(prezzi), sum(prezzi)/len(prezzi), max(prezzi), min(prezzi)
 
-tot, media, max, min = calcola_statistiche_carrello(carrello) # fa un unpacking di questi affidandoli a variabili
+tot, media, mass, minnn = calcola_statistiche_carrello(carrello) # fa un unpacking di questi affidandoli a variabili
 # elementi
 
-tot, *altri_campi = calcola_statistiche_carrello(carrello) # fa un unpacking mettendo gli altri valori tutti
+#tot, *altri_campi = calcola_statistiche_carrello(carrello) # fa un unpacking mettendo gli altri valori tutti
 # assieme moltiplicati
 print(tot)
 
@@ -111,7 +110,7 @@ categorie_esclusive2 = categorie ^ categorie2 # differenza simmetrica, stampa gl
 print(categorie_esclusive2)
 
 prodotti_ordine_A = {p1, p2, p3}
-prodotti_ordine_A = {ProdottoRecord("Tablet", 700.0),
+prodotti_ordine_B = {ProdottoRecord("Tablet", 700.0),
                      ProdottoRecord("Monitor", 150.0),
                      ProdottoRecord("Prodotto", 100.0)}
 
@@ -138,7 +137,6 @@ s.symmetric_difference(s1) # s ^ s1, elementi solo in uno o nell'altro
 s1.issubset(s) # se gli elementi di s1 sono contenuti in s
 s1.issuperset(s) # se gli elementi di s sono in s1 (sovrainsieme)
 s1.isdisjoint(s) # se gli elementi di s e di s1 sono diversi, gli insiemi sono totalmente disgiunti
-
 
 '''----------------------------------------------------'''
 # DIZIONARIO
@@ -176,15 +174,17 @@ v = catalogo.get("chiave")
 rimosso = catalogo.pop("LAP002") # toglie l'elemento con la chiave che gli passo, se lo pongo uguale a qualcosa
 # mi assegna quello che tolgo
 catalogo.clear()
+
 keys = list(catalogo.keys()) # lista di chiavi
 values = list(catalogo.values()) # lista di valori
+
 for k in keys:
     print(k)
 for v in values:
     print(v)
 for key, value in catalogo.items():  # catalogo.items() dà le coppie chiave valore
     print(f"Cod {key} è assoviata a: {value}")
-key in catalogo # verifica se la chiave è presente nel dizionario
+#key in catalogo # verifica se la chiave è presente nel dizionario
 
 """ ESERCIZIO: PER CIASCUNO DEI SEGUENTI CASI DECIDERE CHE STRUTTURA USARE"""
 

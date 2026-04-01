@@ -29,7 +29,6 @@ class Cliente:
             raise ValueError("Atttenzione, puoi assegnare solo Gold, Silver e Bronze.")
         self._categoria = categoria
 
-
 def _test_modulo():
     c1 = Cliente(name="Mario Bianchi", email="mario.bianchi@polito.it", categoria="Gold")
     print(c1)

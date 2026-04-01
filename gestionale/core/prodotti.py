@@ -43,11 +43,13 @@ class Prodotto:
         self._price = valore
 
     def __str__(self): # per stampare l'oggetto
-        return f"{self.name} - disponibilità {self.quantity} pezzi a {self.price}$"
+        return f"{self.name} - disponibilità di {self.quantity} pezzi a {self.price}$"
 
     def __repr__(self): # stampa l'oggetto ma deve essere molto più rappresentativa dell'oggetto in sè mentre str è una
         # stringa solo carina da leggere. Questo metodo mi fa vedere i valori della variabile quando debuggo
-        return (f"Prodotto (name = {self.name}, price = {self.price}, quantity = {self.quantity}, "
+        return (f"Prodotto (name = {self.name}, "
+                f"price = {self.price}, "
+                f"quantity = {self.quantity}, "
                 f"supplier = {self.supplier}) ")
 
     def __eq__(self, other: object): # definisce se un istanza è uguale ad un'altra, scrivendo object dico che può

@@ -1,7 +1,5 @@
 import random
-from audioop import add
 from collections import deque, Counter, defaultdict
-
 from dao.dao import DAO
 from gestionale.core.cliente import ClienteRecord
 from gestionale.core.prodotto import ProdottoRecord
@@ -32,12 +30,11 @@ class GestoreOrdini:
         self._allC.extend(self._dao.getAllClienti())
 
         for i in range(10):
-            indexP = random.randint(0, len(self._allP))
-            indexC = random.randint(0, len(self._allC))
+            indexP = random.randint(0, len(self._allP) - 1)
+            indexC = random.randint(0, len(self._allC) - 1)
             ordine = Ordine([RigaOrdine(self._allP[indexP], random.randint(1, 5))],
                             self._allC[indexC])
             self.add_ordine(ordine)
-
 
     def add_ordine(self, ordine: Ordine):
         # Aggiunge un nuovo ordine agli elementi da gestire
@@ -53,8 +50,11 @@ class GestoreOrdini:
         return Ordine([RigaOrdine(prod, quantitaP)], cliente)
 
     def _update_DB(self, prod, cliente):
-        pass
+        if not self._dao.hasProdotto(prod):
+            self._dao.addProdotto(prod)
 
+        if not self._dao.hasCliente(cliente):
+            self._dao.addCliente(cliente)
 
     def processa_prossimo_ordine(self):
         # Legge il prossimo ordine in coda e lo gestisce, aggiorna le variabili private di questa classe
@@ -82,11 +82,12 @@ class GestoreOrdini:
         # archiviamo l'ordine
         self._ordini_processati.append(ordine)
         print("Ordine correttamente processato")
-        return True
+        return True, ordine
 
     def processa_tutti_ordini(self):
         # processa tutti gli ordini attualmente presenti in coda
 
+        print("\n" + "-" * 60)
         print(f"Processando {len(self._ordini_da_processare)} ordini")
         ordini = []
         while self._ordini_da_processare:
@@ -114,6 +115,7 @@ class GestoreOrdini:
 
     def stampa_riepilogo(self):
         # stampa info di massima
+        print("\n" + "=" * 60)
         print("Stato attuale del business:")
         print(f"Oridni correttamente gestiti: {len(self._ordini_processati)}")
         print(f"Oridni in coda: {len(self._ordini_da_processare)}")
@@ -140,6 +142,7 @@ class GestoreOrdini:
         sommario += "Fatturato per categoria:"
         for cat, fatturato in self.get_distribuzione_categorie():
             sommario += f"{cat}: {fatturato}"
+        return sommario
 
 def test_modulo():
     sistema = GestoreOrdini() # crea un'istanza della classe

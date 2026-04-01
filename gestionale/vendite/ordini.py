@@ -1,6 +1,7 @@
 from dataclasses import dataclass
-from gestionale.core.clienti import ClienteRecord
-from gestionale.core.prodotti import ProdottoRecord
+from gestionale.core.cliente import ClienteRecord
+from gestionale.core.prodotto import ProdottoRecord
+
 
 @dataclass
 class RigaOrdine:
@@ -23,6 +24,26 @@ class Ordine:
 
     def numero_righe(self):
         return len(self.righe)
+
+    def riepilogo(self) -> str:
+        linee = [
+            f"Ordine per: {self.cliente.name} ({self.cliente.email})",
+            f"Categoria cliente: {self.cliente.categoria}",
+            "-" * 50
+        ]
+
+        for i, riga in enumerate(self.righe, 1):
+            linee.append(
+                f"{i + 1}. {riga.prodotto.name} -"
+                f"Q.tà {riga.quantita} x {riga.prodotto.prezzo_unitario}€ ="
+                f"{riga.totale_riga()}€"
+            )
+
+        linee.append("-" * 50)
+        linee.append(f"Totale netto: {self.totale_netto():.2f}€")
+        linee.append(f"Totale lordo: {self.totale_lordo():.2f}€")
+
+        return "\n".join(linee)
 
 @dataclass
 class OrdineConSconto(Ordine):

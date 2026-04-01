@@ -1,8 +1,7 @@
 from datetime import date
 from dataclasses import dataclass
-
 from gestionale.core.clienti import Cliente
-from gestionale.core.prodotti import ProdottoRecord
+from gestionale.core.prodotto import ProdottoRecord
 from gestionale.vendite.ordini import Ordine, RigaOrdine
 
 
@@ -23,7 +22,7 @@ class Fattura:
             f"=" * 60,
             f"DETTAGLIO ORDINE"
         ]
-        for i, riga in enumerate(self.ordine.righe): # enumerate mi restituisce l'indice con cui ho trovato l'oggetto
+        for i, riga in enumerate(self.ordine.righe, 1): # enumerate mi restituisce l'indice con cui ho trovato l'oggetto
             # l'altro è l'oggetto stesso
             linee.append(
                 f"{i}. "
