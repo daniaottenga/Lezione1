@@ -9,8 +9,8 @@ class View:
         self._page.title = "TdP 2025 -- software gestionale" # titolo
         self._page.horizontal_alignment = "CENTER" # mi allinea tutto al centro
         self._page.theme_mode = ft.ThemeMode.LIGHT # dà una schermata bianca
+        self._txtInNomeP = None # dovrei farlo per ogni elemento creato nell'interfaccia, non obbligatorio
         self.update_page()
-
 
     def carica_interfaccia(self):
 

@@ -3,11 +3,11 @@ from dao.dbConnect import DBConnect
 from gestionale.core.cliente import ClienteRecord
 from gestionale.core.prodotto import ProdottoRecord
 
-
 class DAO:
 
-    @staticmethod
-    def getAllProdotti():
+    @staticmethod # tutto quello che conosce è dentro alla funzione
+    def getAllProdotti(): # sono metodi statici, non hanno bisogno del self, non hanno accesso alle variabili
+        # di classe
         cnx = DBConnect.getConnection()
 
         cursor = cnx.cursor(dictionary = True) # creo un cursore, con una lista di dizionari

@@ -7,7 +7,7 @@ class ClienteRecord:
     categoria: str
 
     def __hash__(self): # identificato dalla mail
-        return hash(self.email)
+        return hash(self.email) # richiama una funzione di hash
 
     def __eq__(self, other):
         self.email == other.email
